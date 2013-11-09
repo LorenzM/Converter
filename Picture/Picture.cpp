@@ -90,8 +90,8 @@ void Picture::FFillStructureWithPicInfo(){
 			}
 			else{//Farbwerte auffüllen
 			matrix_Red[i*width_frame+j]=matrix_Red[i*width_frame+width-1];
-			matrix_Green[i*width_frame+j]=matrix_Red[i*width_frame+width-1];
-			matrix_Blue[i*width_frame+j]=matrix_Red[i*width_frame+width-1];
+			matrix_Green[i*width_frame+j]=matrix_Green[i*width_frame+width-1];
+			matrix_Blue[i*width_frame+j]=matrix_Blue[i*width_frame+width-1];
 			}	
 		}
 	}
