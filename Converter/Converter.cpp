@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <string>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -22,10 +23,10 @@ int main()
 //-----------------------------------------------------------------------------------------------------
 TJpegConverter::TJpegConverter()
 {
-	// Datenstruktur befüllen
+	// Datenstruktur befï¿½llen
 	FillStructureWithPicInfo();
 
-	// Farbraum der gespeicherten Daten ändern
+	// Farbraum der gespeicherten Daten ï¿½ndern
 	ChangeColorModel();
 }
 
@@ -36,7 +37,7 @@ void TJpegConverter::FillStructureWithPicInfo()
 	FILE *input;
 	error = fopen_s(&input, "Ouran.ppm", "rb");
 
-	// --- Für Debug-Zwecke ---
+	// --- Fï¿½r Debug-Zwecke ---
 	if (error == 0)
 	{
 		printf("Datei 'Test.ppm' erfolgreich geoeffnet. \n");
@@ -57,7 +58,7 @@ void TJpegConverter::FillStructureWithPicInfo()
 		// Wir bauen hier in zwei Schritten die MagicNumber auf ~ erstmal besorgen wir uns das P
 		magic_number = value;
 		
-		//... und danach die dazu gehörige Ziffer.
+		//... und danach die dazu gehï¿½rige Ziffer.
 		value = fgetc(input);
 		magic_number += value;
 
@@ -70,7 +71,7 @@ void TJpegConverter::FillStructureWithPicInfo()
 			
 		if (value == "#")
 		{
-			// Wir ignorieren hier die Zeile mit der Raute ~ diese ist nämlich unbrauchbare Information!
+			// Wir ignorieren hier die Zeile mit der Raute ~ diese ist nï¿½mlich unbrauchbare Information!
 			while (value != "\n")
 				value = fgetc(input);
 
@@ -84,7 +85,7 @@ void TJpegConverter::FillStructureWithPicInfo()
 			}
 			value = fgetc(input);
 
-			// Höhe des Bildes auslesen
+			// Hï¿½he des Bildes auslesen
 			while (value != " " && value != "\n")
 			{
 				if (value != " ")
@@ -93,7 +94,7 @@ void TJpegConverter::FillStructureWithPicInfo()
 				value = fgetc(input);
 			}
 				
-			// Nächstes NewLine überspringen
+			// Nï¿½chstes NewLine ï¿½berspringen
 			fgetc(input);
 
 			// Farbbereich auslesen
@@ -117,7 +118,7 @@ void TJpegConverter::FillStructureWithPicInfo()
 
 			if (value == " " || value == "\n")
 			{
-				//Hiermit legen wir fest welchen Farbwert wir als nächstes auslesen.
+				//Hiermit legen wir fest welchen Farbwert wir als nï¿½chstes auslesen.
 				if (durchlaufzaehler < 4)
 					++durchlaufzaehler;
 			}
@@ -130,7 +131,7 @@ void TJpegConverter::FillStructureWithPicInfo()
 				}
 				else if (durchlaufzaehler == 2)
 				{
-					// GRÜN
+					// GRï¿½N
 					color_green += value;
 				}
 				else if (durchlaufzaehler == 3)
@@ -140,13 +141,13 @@ void TJpegConverter::FillStructureWithPicInfo()
 				}
 				else if (durchlaufzaehler == 4)
 				{
-					// Wenn wir hier angekommen sind, haben wir alle 3 Farbwerte befüllt und können diese in unsere Datenhaltung speichern.
+					// Wenn wir hier angekommen sind, haben wir alle 3 Farbwerte befï¿½llt und kï¿½nnen diese in unsere Datenhaltung speichern.
 					FPictureVec.push_back(new TRGBContainer(atoi(color_red.c_str()), atoi(color_green.c_str()), atoi(color_blue.c_str())));
 
-					// Wir haben ein neues Objekt erzeugt, jetzt müssen wir unseren Zähler auch zurücksetzten!
+					// Wir haben ein neues Objekt erzeugt, jetzt mï¿½ssen wir unseren Zï¿½hler auch zurï¿½cksetzten!
 					durchlaufzaehler = 1;
 
-					// Zurücksetzten nicht vergessen.
+					// Zurï¿½cksetzten nicht vergessen.
 					color_red = "";
 					color_green = "";
 					color_blue = "";
