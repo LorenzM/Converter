@@ -54,13 +54,18 @@ public:
 	int FColorCr;
 };
 
+/*
 // Bitstrom Klassen
 class TBitStream
 {
 public:
 	TBitStream();
+
 	void getBytes();
-	void pushByte(unsigned char ABit);
+	// Methode um Bits einzeln zu schreiben.
+	void pushBit(unsigned char ABit);
+	// Methode zum schreiben von Bytes.
+	void pushByte(unsigned char AByte);
 
 private:
 	typedef unsigned char byte;
@@ -70,3 +75,4 @@ private:
 
 	FILE* FFile;
 };
+*/
