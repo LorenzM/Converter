@@ -35,7 +35,7 @@ BitStream::BitStream() :
 	// ... damit wir es zum lesen erneut öffnen können.
 	fopen_s(&FFile, "myfile.bin", "rb");
 
-//	getBytes();
+	getBytes();
 
 	fclose(FFile);
 }
@@ -116,19 +116,22 @@ void BitStream::writeToStream_EOI()
 
 void BitStream::getBytes()
 {
+	string buffer;
+	
+	// Jedes Byte einzeln auslesen und in eine Stringliste schreiben
+	while (!feof(FFile))
+		buffer += fgetc(FFile);
+
+	/*
 	// Größe der Datei
 	fseek (FFile, 0, SEEK_END);
 	long size = ftell(FFile);
 	rewind (FFile);
 
-	// Unser interner Speicher
-	unsigned char buffer = (unsigned char)malloc(size * sizeof(char));
-
-	// Jedes Byte einzeln auslesen
 	for (int i = 1; i<=size; ++i)
 	{
-		fread(&buffer,1,i,FFile);
-	}
+		fread(&buffer,1,size,FFile);
+	}*/
 }
 
 void BitStream::pushBit(unsigned char ABit)
