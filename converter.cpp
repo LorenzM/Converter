@@ -1,4 +1,5 @@
 #include "Converter.h"
+#include "BitStream.h"
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -10,12 +11,11 @@ using namespace std;
 //-----------------------------------------------------------------------------------------------------
 int main()
 {
-	TJpegConverter* FJpegConv = new TJpegConverter();
-	TBitStream* FBitStream = new TBitStream();
-	delete FBitStream;
+	//TJpegConverter* FJpegConv = new TJpegConverter();
+	BitStream* bitStream = new BitStream();
 	
-	
-	delete FJpegConv;
+	delete bitStream;	
+	//delete FJpegConv;
 
 	return 0;
 }
@@ -264,60 +264,4 @@ TYCbCrContainer::TYCbCrContainer(float Y, float Cb, float Cr)
 	FColorY = Y;
 	FColorCb = Cb;
 	FColorCr = Cr;
-}
-
-//-----------------------------------------------------------------------------------------------------
-// BitStream Klasse
-//-----------------------------------------------------------------------------------------------------
-TBitStream::TBitStream()
-{
-	FCurrentByte = 0;
-	FBitCounter = 0;
-	// Das "wb" steht hier für 'w' = write -> Also neue Datei und 'b' = binary -> Also als Binärdatei öffnen
-	fopen_s(&FFile, "myfile.bin", "wb");
-
-	// Geschwindigkeitstest beim Schreiben von 10.000.000 Bit
-	for (long i = 0; i<10000000; ++i)
-		pushByte(0);
-
-	// Neu erzeugtes File schliessen...
-	fclose(FFile);
-
-	// ... damit wir es zum lesen erneut öffnen können.
-	fopen_s(&FFile, "myfile.bin", "rb");
-
-	getBytes();
-
-	fclose(FFile);
-}
-
-void TBitStream::getBytes()
-{
-	// Größe der Datei
-	fseek (FFile, 0, SEEK_END);
-	long size = ftell(FFile);
-	rewind (FFile);
-
-	// Unser interner Speicher
-	unsigned char buffer = 0;
-
-	// Jedes Byte einzeln auslesen
-	for (int i = 0; i<size; ++i)
-		fread(&buffer,1,1,FFile);
-}
-
-void TBitStream::pushByte(unsigned char ABit)
-{
-	// Hier sammeln wir erstmal unserer Bit's solange bis wir ein Byte haben.
-	FCurrentByte <<= 1;
-	FCurrentByte |= ABit;
-
-	// Bei 8 Bit ist logischerweise ein Byte befüllt
-	if(++FBitCounter == 8)
-	{
-		// Byteweise in unser File schreiben.
-		fwrite(&FCurrentByte,1,1,FFile);
-		FBitCounter = 0;
-		FCurrentByte = 0;
-	}
 }
